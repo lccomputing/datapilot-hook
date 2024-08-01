@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.1 https://maven.apache.org/xsd/assembly-2.1.1.xsd">
+  <id>lccx-assembly-free</id>
+
+  <formats>
+    <format>zip</format>
+  </formats>
+
+  <fileSets>
+    <fileSet>
+      <directory>../jvm-profiler/target/</directory>
+      <outputDirectory>spark</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>original-*.jar</exclude>
+      </excludes>
+    </fileSet>
+
+    <fileSet>
+      <directory>../agent/tez/target/</directory>
+      <outputDirectory>tez</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>original-*.jar</exclude>
+      </excludes>
+    </fileSet>
+
+    <fileSet>
+      <directory>../agent/spark/target/</directory>
+      <outputDirectory>spark</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>original-*.jar</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+
+</assembly>
