@@ -16,10 +16,10 @@ public class SparkSubmit240Trans implements ClassFileTransformer {
     // @formatter:off
     private static final String CODE =
             "try {\n" +
-            "  com.lccomputing.hbo.solution.agent.SparkDriverAdjuster.adjust(args);\n" +
+            "  com.lccomputing.datapilot.hook.agent.SparkDriverAdjuster.adjust(args);\n" +
             "} catch (Exception e) {\n" +
-            "  logWarning(new com.lccomputing.hbo.solution.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue: \" + e));\n" +
-            "  logDebug(new com.lccomputing.hbo.solution.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue\"), e);\n" +
+            "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue: \" + e));\n" +
+            "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue\"), e);\n" +
             "}";
     // @formatter:on
 
