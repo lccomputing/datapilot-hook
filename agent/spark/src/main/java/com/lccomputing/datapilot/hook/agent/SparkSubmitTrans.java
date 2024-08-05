@@ -18,8 +18,8 @@ public class SparkSubmitTrans implements ClassFileTransformer {
             "try {\n" +
             "  com.lccomputing.datapilot.hook.agent.SparkDriverAdjuster.adjust(args);\n" +
             "} catch (Exception e) {\n" +
-            "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue: \" + e));\n" +
-            "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue\"), e);\n" +
+            "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitTrans run failed, ignore it and continue: \" + e));\n" +
+            "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitTrans run failed, ignore it and continue\"), e);\n" +
             "}";
 
     private static final String CODE_160 =
@@ -43,14 +43,18 @@ public class SparkSubmitTrans implements ClassFileTransformer {
                 return classfileBuffer;
             }
 
+            String version;
             String code;
             if (JavassistUtils.has(ctClass, "method", "printWarning")) {
+                version = "160";
                 code = CODE_160;
             } else if (JavassistUtils.has(ctClass, "method", "logWarning")) {
+                version = "230";
                 code = CODE_230;
             } else {
                 throw new RuntimeException("LCC HBO SparkSubmitTrans Failed: not found the log method");
             }
+            LOG.debug("LCC HBO SparkSubmitTrans transform {}.submit of version: {}", CLASS_NAME_DOT, version);
 
             CtMethod ctMethod = ctClass.getDeclaredMethod("submit");
             ctMethod.insertBefore(code);

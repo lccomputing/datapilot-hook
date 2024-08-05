@@ -18,8 +18,8 @@ public class SparkSubmit240Trans implements ClassFileTransformer {
             "try {\n" +
             "  com.lccomputing.datapilot.hook.agent.SparkDriverAdjuster.adjust(args);\n" +
             "} catch (Exception e) {\n" +
-            "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue: \" + e));\n" +
-            "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitHook run failed, ignore it and continue\"), e);\n" +
+            "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmit240Trans run failed, ignore it and continue: \" + e));\n" +
+            "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmit240Trans run failed, ignore it and continue\"), e);\n" +
             "}";
     // @formatter:on
 
@@ -35,13 +35,14 @@ public class SparkSubmit240Trans implements ClassFileTransformer {
             if (!JavassistUtils.has(ctClass, "method", "submit")) {
                 return classfileBuffer;
             }
+            LOG.debug("LCC HBO SparkSubmit240Trans transform {}.submit", CLASS_NAME_DOT);
 
             CtMethod ctMethod = ctClass.getDeclaredMethod("submit");
             ctMethod.insertBefore(CODE);
             return ctClass.toBytecode();
         } catch (Exception e) {
-            LOG.warn("LCC HBO SparkSubmitTrans Failed: {}", e.toString());
-            LOG.debug("LCC HBO SparkSubmitTrans Failed", e);
+            LOG.warn("LCC HBO SparkSubmit240Trans Failed: {}", e.toString());
+            LOG.debug("LCC HBO SparkSubmit240Trans Failed", e);
             return classfileBuffer;
         }
     }

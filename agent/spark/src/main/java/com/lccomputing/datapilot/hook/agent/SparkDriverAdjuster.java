@@ -20,6 +20,10 @@ public class SparkDriverAdjuster {
             String oldOpts = getValue(args.sparkProperties().get("spark.yarn.am.extraJavaOptions"), "");
             LOG.debug("LCC original yarnAmExtraJavaOptions is: {}", oldOpts);
 
+            if (oldOpts != null && oldOpts.contains(lccAgentDefine)) {
+                return;
+            }
+
             String newOpts = oldOpts != null ? lccAgentDefine + " " + oldOpts : lccAgentDefine;
             LOG.debug("LCC adjusted yarnAmExtraJavaOptions is: {}", newOpts);
 
@@ -28,6 +32,10 @@ public class SparkDriverAdjuster {
         } else {
             String oldOpts = args.driverExtraJavaOptions();
             LOG.debug("LCC original driverExtraJavaOptions is: {}", oldOpts);
+
+            if (oldOpts != null && oldOpts.contains(lccAgentDefine)) {
+                return;
+            }
 
             String newOpts = oldOpts != null ? lccAgentDefine + " " + oldOpts : lccAgentDefine;
             LOG.debug("LCC adjusted driverExtraJavaOptions is: {}", newOpts);
