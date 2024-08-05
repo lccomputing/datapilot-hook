@@ -194,14 +194,14 @@ public class DagReporter {
         String url = "/v1/create_tez_stats";
         try {
             String body = report.toString();
-            LOG.debug("LCC HBO reportStats request body: {}", body);
+            LOG.debug("LCC DataPilot reportStats request body: {}", body);
             String result = HttpUtils.post(hosts, url, body, null, "application/json",
                     3000, 3000,
                     2, 1000);
-            LOG.info("LCC HBO reportStats response from {} is: {}", hosts.get() + url, result);
+            LOG.info("LCC DataPilot reportStats response from {} is: {}", hosts.get() + url, result);
         } catch (Exception e) {
-            LOG.warn("LCC HBO reportStats on {} failed: {}", url, e.toString());
-            LOG.debug("LCC HBO reportStats on {} failed", url, e);
+            LOG.warn("LCC DataPilot reportStats on {} failed: {}", url, e.toString());
+            LOG.debug("LCC DataPilot reportStats on {} failed", url, e);
         }
     }
 

@@ -52,16 +52,16 @@ public class SparkSubmitTrans implements ClassFileTransformer {
                 version = "230";
                 code = CODE_230;
             } else {
-                throw new RuntimeException("LCC HBO SparkSubmitTrans Failed: not found the log method");
+                throw new RuntimeException("LCC DataPilot SparkSubmitTrans Failed: not found the log method");
             }
-            LOG.debug("LCC HBO SparkSubmitTrans transform {}.submit of version: {}", CLASS_NAME_DOT, version);
+            LOG.debug("LCC DataPilot SparkSubmitTrans transform {}.submit of version: {}", CLASS_NAME_DOT, version);
 
             CtMethod ctMethod = ctClass.getDeclaredMethod("submit");
             ctMethod.insertBefore(code);
             return ctClass.toBytecode();
         } catch (Exception e) {
-            LOG.warn("LCC HBO SparkSubmitTrans Failed: {}", e.toString());
-            LOG.debug("LCC HBO SparkSubmitTrans Failed", e);
+            LOG.warn("LCC DataPilot SparkSubmitTrans Failed: {}", e.toString());
+            LOG.debug("LCC DataPilot SparkSubmitTrans Failed", e);
             return classfileBuffer;
         }
     }

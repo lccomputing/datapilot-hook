@@ -35,14 +35,14 @@ public class SparkSubmit240Trans implements ClassFileTransformer {
             if (!JavassistUtils.has(ctClass, "method", "submit")) {
                 return classfileBuffer;
             }
-            LOG.debug("LCC HBO SparkSubmit240Trans transform {}.submit", CLASS_NAME_DOT);
+            LOG.debug("LCC DataPilot SparkSubmit240Trans transform {}.submit", CLASS_NAME_DOT);
 
             CtMethod ctMethod = ctClass.getDeclaredMethod("submit");
             ctMethod.insertBefore(CODE);
             return ctClass.toBytecode();
         } catch (Exception e) {
-            LOG.warn("LCC HBO SparkSubmit240Trans Failed: {}", e.toString());
-            LOG.debug("LCC HBO SparkSubmit240Trans Failed", e);
+            LOG.warn("LCC DataPilot SparkSubmit240Trans Failed: {}", e.toString());
+            LOG.debug("LCC DataPilot SparkSubmit240Trans Failed", e);
             return classfileBuffer;
         }
     }

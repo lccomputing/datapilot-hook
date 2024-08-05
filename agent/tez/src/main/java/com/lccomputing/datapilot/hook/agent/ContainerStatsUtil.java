@@ -43,12 +43,12 @@ public class ContainerStatsUtil {
                 for (Map.Entry<ContainerId, Long> entry : heldContainersStartTime.entrySet()) {
                     entry.setValue(resetTime);
                 }
-                LOG.info("LCC HBO container watch reset! in-running container size:{}",
+                LOG.info("LCC DataPilot container watch reset! in-running container size:{}",
                         heldContainersStartTime.size());
             }
             timeCost.set(0L);
         } catch (Exception e) {
-            LOG.warn("LCC HBO ContainerStatsUtil hook reset failed, ignore", e);
+            LOG.warn("LCC DataPilot ContainerStatsUtil hook reset failed, ignore", e);
         }
 
 
@@ -76,7 +76,7 @@ public class ContainerStatsUtil {
                     if (report.getStartTime() > 0 && time > 0) {
                         taskTimes += time;
                     } else {
-                        LOG.debug("LCC HBO invalid task time {} {}", time, task.getTaskId());
+                        LOG.debug("LCC DataPilot invalid task time {} {}", time, task.getTaskId());
                     }
                 }
                 taskCounts += vertex.getTasks().size();
@@ -87,7 +87,7 @@ public class ContainerStatsUtil {
                 long runningTimes = 0L;
                 for (Map.Entry<ContainerId, Long> entry : heldContainersStartTime.entrySet()) {
                     if (endTime - entry.getValue() < 0) {
-                        LOG.warn("LCC HBO container duration invalid! containerId: {}", entry.getKey());
+                        LOG.warn("LCC DataPilot container duration invalid! containerId: {}", entry.getKey());
                         continue;
                     }
                     runningTimes += endTime - entry.getValue();
@@ -95,10 +95,10 @@ public class ContainerStatsUtil {
                 long cumulativeContainerTime = containerTimes + 1 + runningTimes; // unit:ms
                 double cpuUtil = Math.round(taskCpuTimes * 1.0 / cumulativeContainerTime * 10000) * 1.0 /100;
                 double cpuUtilV2 = Math.round(taskTimes * 1.0 / cumulativeContainerTime * 10000) * 1.0 /100;
-                LOG.info("LCC HBO fin container size:{}, in-running container size:{}, maxConcurrency container size:{}, " +
+                LOG.info("LCC DataPilot fin container size:{}, in-running container size:{}, maxConcurrency container size:{}, " +
                                 "cumulativeContainerTime(ms):{} memory:{} MB core:{}",
                         containerSize, heldContainersStartTime.size(), maxConcurrency, cumulativeContainerTime, memory, core);
-                LOG.info("LCC HBO collectContainerInfo tasksCpuTimes(ms):{} vertexConcurrency:{} vertexCounts:{} " +
+                LOG.info("LCC DataPilot collectContainerInfo tasksCpuTimes(ms):{} vertexConcurrency:{} vertexCounts:{} " +
                                 "taskCounts:{}  cpuUsage:{}% cpuUtilV2:{}%",
                         taskCpuTimes, vertexConcurrency, vertexCounts, taskCounts, cpuUtil, cpuUtilV2);
 
@@ -112,10 +112,10 @@ public class ContainerStatsUtil {
                 cpuStats.addProperty("MEM_TIME", cumulativeContainerTime/1000 * memory);
             }
             timeCost.addAndGet(System.currentTimeMillis() - startTime);
-            LOG.info("LCC HBO collectContainerInfo timeCost:{} ms", timeCost.get());
+            LOG.info("LCC DataPilot collectContainerInfo timeCost:{} ms", timeCost.get());
             return cpuStats;
         } catch (Exception e) {
-            LOG.warn("LCC HBO ContainerStatsUtil hook calcCpuUtil failed, ignore, ", e);
+            LOG.warn("LCC DataPilot ContainerStatsUtil hook calcCpuUtil failed, ignore, ", e);
         }
         return cpuStats;
     }
@@ -127,7 +127,7 @@ public class ContainerStatsUtil {
                 if (heldContainersStartTime.containsKey(containerId)) {
                     return;
                 }
-                LOG.debug("LCC HBO container start {}", containerId);
+                LOG.debug("LCC DataPilot container start {}", containerId);
                 heldContainersStartTime.put(containerId, System.currentTimeMillis());
                 if (heldContainersStartTime.size() > maxConcurrency) {
                     maxConcurrency = heldContainersStartTime.size();
@@ -135,7 +135,7 @@ public class ContainerStatsUtil {
             }
             timeCost.addAndGet(System.currentTimeMillis() - startTime);
         } catch (Exception e) {
-            LOG.warn("LCC HBO ContainerStatsUtil hook markStartNoException failed, ignore", e);
+            LOG.warn("LCC DataPilot ContainerStatsUtil hook markStartNoException failed, ignore", e);
         }
 
     }
@@ -151,11 +151,11 @@ public class ContainerStatsUtil {
                 long duration = System.currentTimeMillis() - startTime;
                 containerSize++;
                 containerTimes += duration;
-                LOG.debug("LCC HBO container end duration:{}ms {}", duration, containerId);
+                LOG.debug("LCC DataPilot container end duration:{}ms {}", duration, containerId);
             }
             timeCost.addAndGet(System.currentTimeMillis() - start);
         } catch (Exception e) {
-            LOG.warn("LCC HBO ContainerStatsUtil hook markEndNoException failed, ignore", e);
+            LOG.warn("LCC DataPilot ContainerStatsUtil hook markEndNoException failed, ignore", e);
         }
 
 
