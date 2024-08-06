@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>hook-dist</artifactId>
-    <description>LCC Hook dist for free</description>
+    <description>LCC DataPilot Hook dist for public</description>
     <packaging>pom</packaging>
 
     <build>
@@ -19,7 +19,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>free</id>
+                        <id>public</id>
                         <goals>
                             <goal>single</goal>
                         </goals>
@@ -29,7 +29,7 @@
                             <descriptors>
                                 <descriptor>assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>lcc-hook-free</finalName>
+                            <finalName>lcc-hook-public</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <tarLongFileMode>gnu</tarLongFileMode>
                         </configuration>

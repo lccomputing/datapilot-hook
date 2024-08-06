@@ -11,12 +11,12 @@
 
   <artifactId>lcc-hook-agent-tez</artifactId>
   <packaging>jar</packaging>
-  <description>lcc hook agent for tez (free version)</description>
+  <description>lcc hook agent for tez (public version)</description>
 
   <dependencies>
     <dependency>
       <groupId>com.lccomputing.datapilot</groupId>
-      <artifactId>hook-jvm-profiler</artifactId>
+      <artifactId>lcc-jvm-profiler</artifactId>
       <version>${project.version}</version>
     </dependency>
 

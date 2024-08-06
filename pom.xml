@@ -79,6 +79,7 @@
           <archive>
             <manifestEntries>
               <com-lccomputing-hook-version>${hook.version}</com-lccomputing-hook-version>
+              <Bundle-License>http://www.apache.org/licenses/LICENSE-2.0.txt</Bundle-License>
             </manifestEntries>
           </archive>
         </configuration>
