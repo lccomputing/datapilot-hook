@@ -29,7 +29,7 @@
                             <descriptors>
                                 <descriptor>assembly.xml</descriptor>
                             </descriptors>
-                            <finalName>lcc-hook-public</finalName>
+                            <finalName>hook-community</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <tarLongFileMode>gnu</tarLongFileMode>
                         </configuration>
