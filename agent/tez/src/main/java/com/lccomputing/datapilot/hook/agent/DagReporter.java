@@ -118,7 +118,6 @@ public class DagReporter {
         }
 
         long maxMem = -1L;
-        int N = 6; // must be equal to len(counterNames)
         TaskCounter[] counterNames = new TaskCounter[]{
                 TaskCounter.PHYSICAL_MEMORY_BYTES,
                 TaskCounter.SHUFFLE_BYTES,
@@ -129,7 +128,9 @@ public class DagReporter {
                 TaskCounter.SHUFFLE_PHASE_TIME,
                 TaskCounter.MERGE_PHASE_TIME
         };
-        long[] maxVals = new long[N];
+        int counterLen = counterNames.length;
+
+        long[] maxVals = new long[counterLen];
         JsonObject vertexCounters = new JsonObject();
         for (Vertex vertex : dag.getVertices().values()) {
             Arrays.fill(maxVals, -1L);
@@ -144,7 +145,7 @@ public class DagReporter {
             long accumulatedShufflePhaseTime = 0;
             long accumulatedMergePhaseTime = 0;
             for (Task task : vertex.getTasks().values()) {
-                for (int i = 0; i < N; i++) {
+                for (int i = 0; i < counterLen; i++) {
                     maxVals[i] = FindMaxValue(task, counterNames[i], maxVals[i]);
                 }
                 long cpuMills = task.getCounters().findCounter(TaskCounter.CPU_MILLISECONDS).getValue();
@@ -161,7 +162,7 @@ public class DagReporter {
                 accumulatedShufflePhaseTime += task.getCounters().findCounter(TaskCounter.SHUFFLE_PHASE_TIME).getValue();
                 accumulatedMergePhaseTime += task.getCounters().findCounter(TaskCounter.MERGE_PHASE_TIME).getValue();
             }
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < counterLen; i++) {
                 counters.addProperty(counterNames[i].toString(), maxVals[i]);
             }
             long gcRatioMilli = 0;
