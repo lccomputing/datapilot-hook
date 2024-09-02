@@ -11,7 +11,7 @@
 
   <artifactId>lcc-hook-agent-spark</artifactId>
   <packaging>jar</packaging>
-  <description>lcc hook agent for spark (public version)</description>
+  <description>lcc hook agent for spark (community version)</description>
 
   <dependencies>
     <dependency>

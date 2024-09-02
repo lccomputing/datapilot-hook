@@ -20,6 +20,16 @@
     </fileSet>
 
     <fileSet>
+      <directory>../agent/hive/target/</directory>
+      <outputDirectory>tez</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+      <excludes>
+        <exclude>original-*.jar</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
       <directory>../agent/tez/target/</directory>
       <outputDirectory>tez</outputDirectory>
       <includes>

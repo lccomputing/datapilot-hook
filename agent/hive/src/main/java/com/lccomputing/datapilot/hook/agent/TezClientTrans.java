@@ -25,18 +25,18 @@ import org.slf4j.LoggerFactory;
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
 
-public class DagImplTrans implements ClassFileTransformer {
-    private static final Logger LOG = LoggerFactory.getLogger(DagImplTrans.class);
-    private static final String CLASS_NAME = "org/apache/tez/dag/app/dag/impl/DAGImpl";
+public class TezClientTrans implements ClassFileTransformer {
+    private static final Logger LOG = LoggerFactory.getLogger(TezClientTrans.class);
+    private static final String CLASS_NAME = "org/apache/tez/client/TezClient";
     private static final String CLASS_NAME_DOT = CLASS_NAME.replace('/', '.');
     // @formatter:off
     private static final String CODE =
             "try {\n" +
-            "  LOG.info(\"LCC DagImplTrans start\");\n" +
-            "  com.lccomputing.datapilot.hook.agent.DagReporter.report($0, $0.getState(), $0.finishTime, $0.initTime);\n" +
+            "  LOG.info(\"LCC TezClientTrans start\");\n" +
+            "  com.lccomputing.datapilot.hook.agent.TezHookInstaller.addAmOpts(amConfig.getTezConfiguration());\n" +
             "} catch (Exception e) {\n" +
-            "  LOG.warn(\"LCC DagImplTrans run failed, ignore it and continue: {}\", e.toString());\n" +
-            "  LOG.debug(\"LCC DagImplTrans run failed, ignore it and continue\", e);\n" +
+            "  LOG.warn(\"LCC TezClientTrans run failed, ignore it and continue: {}\", e.toString());\n" +
+            "  LOG.debug(\"LCC TezClientTrans run failed, ignore it and continue\", e);\n" +
             "}";
     // @formatter:on
 
@@ -50,13 +50,12 @@ public class DagImplTrans implements ClassFileTransformer {
             ClassPool pool = ClassPool.getDefault();
             CtClass ctClass = pool.get(CLASS_NAME_DOT);
 
-            CtMethod ctMethod = ctClass.getDeclaredMethod("isComplete");
-            ctMethod.insertAfter(CODE);
-
+            CtMethod ctMethod = ctClass.getDeclaredMethod("start");
+            ctMethod.insertBefore(CODE);
             return ctClass.toBytecode();
         } catch (Exception e) {
-            LOG.warn("LCC Hook DagImplTrans Failed: {}", e.toString());
-            LOG.debug("LCC Hook DagImplTrans Failed", e);
+            LOG.warn("LCC TezClientTrans Failed: {}", e.toString());
+            LOG.debug("LCC TezClientTrans Failed", e);
             return classfileBuffer;
         }
     }

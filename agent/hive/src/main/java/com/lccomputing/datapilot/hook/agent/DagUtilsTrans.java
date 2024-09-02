@@ -25,18 +25,18 @@ import org.slf4j.LoggerFactory;
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
 
-public class DagImplTrans implements ClassFileTransformer {
-    private static final Logger LOG = LoggerFactory.getLogger(DagImplTrans.class);
-    private static final String CLASS_NAME = "org/apache/tez/dag/app/dag/impl/DAGImpl";
-    private static final String CLASS_NAME_DOT = CLASS_NAME.replace('/', '.');
+public class DagUtilsTrans implements ClassFileTransformer {
+    private static final Logger LOG = LoggerFactory.getLogger(DagUtilsTrans.class);
+    private static final String CLASS_NAME_DOT = "org.apache.hadoop.hive.ql.exec.tez.DagUtils";
+    private static final String CLASS_NAME = CLASS_NAME_DOT.replace('.', '/');
     // @formatter:off
     private static final String CODE =
             "try {\n" +
-            "  LOG.info(\"LCC DagImplTrans start\");\n" +
-            "  com.lccomputing.datapilot.hook.agent.DagReporter.report($0, $0.getState(), $0.finishTime, $0.initTime);\n" +
+            "  LOG.info(\"LCC DagUtilsTrans start\");\n" +
+            "  com.lccomputing.datapilot.hook.agent.TezHookInstaller.uploadJar($1);\n" +
             "} catch (Exception e) {\n" +
-            "  LOG.warn(\"LCC DagImplTrans run failed, ignore it and continue: {}\", e.toString());\n" +
-            "  LOG.debug(\"LCC DagImplTrans run failed, ignore it and continue\", e);\n" +
+            "  LOG.warn(\"LCC DagUtilsTrans run failed, ignore it and continue: {}\", e.toString());\n" +
+            "  LOG.debug(\"LCC DagUtilsTrans run failed, ignore it and continue\", e);\n" +
             "}";
     // @formatter:on
 
@@ -50,13 +50,12 @@ public class DagImplTrans implements ClassFileTransformer {
             ClassPool pool = ClassPool.getDefault();
             CtClass ctClass = pool.get(CLASS_NAME_DOT);
 
-            CtMethod ctMethod = ctClass.getDeclaredMethod("isComplete");
-            ctMethod.insertAfter(CODE);
-
+            CtMethod ctMethod = ctClass.getDeclaredMethod("getTempFilesFromConf");
+            ctMethod.insertBefore(CODE);
             return ctClass.toBytecode();
         } catch (Exception e) {
-            LOG.warn("LCC Hook DagImplTrans Failed: {}", e.toString());
-            LOG.debug("LCC Hook DagImplTrans Failed", e);
+            LOG.warn("LCC DagUtilsTrans Failed: {}", e.toString());
+            LOG.debug("LCC DagUtilsTrans Failed", e);
             return classfileBuffer;
         }
     }

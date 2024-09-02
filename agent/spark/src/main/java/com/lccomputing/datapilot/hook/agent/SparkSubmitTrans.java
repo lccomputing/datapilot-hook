@@ -39,7 +39,7 @@ public class SparkSubmitTrans implements ClassFileTransformer {
     // @formatter:off
     private static final String CODE_GE_230 =
             "try {\n" +
-            "  com.lccomputing.datapilot.hook.agent.SparkDriverAdjuster.adjust($1);\n" +
+            "  new com.lccomputing.datapilot.hook.agent.SparkHookInstaller($1).install();\n" +
             "} catch (Exception e) {\n" +
             "  logWarning(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitTrans run failed, ignore it and continue: \" + e));\n" +
             "  logDebug(new com.lccomputing.datapilot.hook.agent.Stringify(\"LCC SparkSubmitTrans run failed, ignore it and continue\"), e);\n" +
@@ -47,7 +47,7 @@ public class SparkSubmitTrans implements ClassFileTransformer {
 
     private static final String CODE_LT_230 =
             "try {\n" +
-            "  com.lccomputing.datapilot.hook.agent.SparkDriverAdjuster.adjust($1);\n" +
+            "  new com.lccomputing.datapilot.hook.agent.SparkHookInstaller($1).install();\n" +
             "} catch (Exception e) {\n" +
             "  printWarning(\"LCC SparkSubmitTrans run failed, ignore it and continue: \" + e);\n" +
             "}";
